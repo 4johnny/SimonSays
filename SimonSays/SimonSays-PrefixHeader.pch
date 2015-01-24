@@ -1,0 +1,21 @@
+//
+//  SimonSays-PrefixHeader.pch
+//  SimonSays
+//
+//  Created by Johnny on 2015-01-23.
+//  Copyright (c) 2015 Empath Solutions. All rights reserved.
+//
+
+#ifndef SimonSays_SimonSays_PrefixHeader_pch
+#define SimonSays_SimonSays_PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+
+#if __has_feature(objc_arc)
+#define MDLog(format, ...) CFShow((__bridge CFStringRef)[NSString stringWithFormat:format, ## __VA_ARGS__]);
+#else
+#define MDLog(format, ...) CFShow([NSString stringWithFormat:format, ## __VA_ARGS__]);
+#endif
+
+
+#endif

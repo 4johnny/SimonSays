@@ -19,49 +19,61 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dBx-SQ-uGZ" userLabel="ButtonHolder">
                                 <rect key="frame" x="200" y="200" width="200" height="200"/>
                                 <subviews>
-                                    <button opaque="NO" alpha="0.5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l6V-qM-ZGl">
+                                    <button opaque="NO" alpha="0.49999999999999961" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l6V-qM-ZGl">
                                         <rect key="frame" x="100" y="0.0" width="100" height="100"/>
-                                        <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="100" id="8fJ-fz-S0h"/>
                                             <constraint firstAttribute="height" constant="100" id="wP4-6e-SJi"/>
                                         </constraints>
-                                        <state key="normal" title="Green">
+                                        <state key="normal" title="Red">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="redButtonPressed" destination="vXZ-lx-hvc" eventType="touchUpInside" id="PGV-k0-Jyv"/>
+                                        </connections>
                                     </button>
-                                    <button opaque="NO" alpha="0.5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qTR-TM-sZD">
+                                    <button opaque="NO" alpha="0.49999999999999961" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qTR-TM-sZD">
                                         <rect key="frame" x="0.0" y="100" width="100" height="100"/>
-                                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="100" id="5SC-fG-4fa"/>
                                             <constraint firstAttribute="height" constant="100" id="6pz-Op-Zul"/>
                                         </constraints>
-                                        <state key="normal" title="Red">
+                                        <state key="normal" title="Orange">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="orangeButtonPressed" destination="vXZ-lx-hvc" eventType="touchUpInside" id="P8J-ZJ-E4H"/>
+                                        </connections>
                                     </button>
-                                    <button opaque="NO" alpha="0.5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z0U-fQ-Nfy">
+                                    <button opaque="NO" alpha="0.49999999999999961" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z0U-fQ-Nfy">
                                         <rect key="frame" x="100" y="100" width="100" height="100"/>
-                                        <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="100" id="Rsr-xm-Dky"/>
                                             <constraint firstAttribute="width" constant="100" id="cG0-h1-UFN"/>
                                         </constraints>
-                                        <state key="normal" title="Orange">
+                                        <state key="normal" title="Blue">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="blueButtonPressed" destination="vXZ-lx-hvc" eventType="touchUpInside" id="3x8-bk-E6I"/>
+                                        </connections>
                                     </button>
-                                    <button opaque="NO" alpha="0.5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4bH-Dk-Ifa">
+                                    <button opaque="NO" alpha="0.49999999999999961" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4bH-Dk-Ifa">
                                         <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                                        <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="100" id="8bO-Xi-pI8"/>
                                             <constraint firstAttribute="width" constant="100" id="Dle-bb-U9N"/>
                                         </constraints>
-                                        <state key="normal" title="Blue">
+                                        <state key="normal" title="Green">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="greenButtonPressed" destination="vXZ-lx-hvc" eventType="touchUpInside" id="tnq-cS-ceL"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -91,9 +103,16 @@
                             <constraint firstAttribute="centerY" secondItem="dBx-SQ-uGZ" secondAttribute="centerY" id="sH7-7e-ZZj"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="blueButtonOutlet" destination="Z0U-fQ-Nfy" id="svw-fl-vd0"/>
+                        <outlet property="greenButtonOutlet" destination="4bH-Dk-Ifa" id="M8d-sk-xFV"/>
+                        <outlet property="orangeButtonOutlet" destination="qTR-TM-sZD" id="PrS-fs-O6j"/>
+                        <outlet property="redButtonOutlet" destination="l6V-qM-ZGl" id="mgy-nQ-sdf"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="207" y="304"/>
         </scene>
     </scenes>
 </document>
