@@ -13,9 +13,8 @@
 // Constants
 //
 
-#define BUTTON_ANIMATION_DURATION 2.0
-#define BUTTON_ANIMATION_DELAY 1.0
-#define BUTTON_ANIMATION_RELATIVE_DURATION (BUTTON_ANIMATION_DURATION / 2.0)
+#define BUTTON_ANIMATION_DURATION 1.0
+#define BUTTON_ANIMATION_DELAY 0.0
 
 #define FLASH_COUNT_SUCCESS 1
 #define FLASH_COUNT_FAILURE 3
@@ -111,7 +110,8 @@
 
 
 - (SimonSaysButtonID)randomSimonSaysButtonID {
-	return (SimonSaysButtonID)(arc4random_uniform(SIMON_SAYS_BUTTON_COUNT) + 1);
+	
+	return arc4random_uniform(SIMON_SAYS_BUTTON_COUNT) + 1;
 }
 
 
@@ -189,11 +189,14 @@
 	// Add random button to button sequence
 	// TODO: Use NSValue non-retain wrapper around actual button objects.
 	SimonSaysButtonID buttonID = [self randomSimonSaysButtonID];
+	MDLog(@"Sequence button: %@", [self simonSaysButtonStringWithID:buttonID]);
 	[self.buttonSequence addObject:[self numberWithSimonSaysButtonID:buttonID]];
 
 	// Animate sequence of buttons.
-	[UIView animateKeyframesWithDuration:BUTTON_ANIMATION_DURATION
-								   delay:0.0 //BUTTON_ANIMATION_DELAY
+	NSTimeInterval animationDuration = BUTTON_ANIMATION_DURATION * self.buttonSequence.count;
+	NSTimeInterval relativeDuration = BUTTON_ANIMATION_DURATION / 2.0;
+	[UIView animateKeyframesWithDuration:animationDuration
+								   delay:BUTTON_ANIMATION_DELAY
 								 options:(UIViewKeyframeAnimationOptions)0
 							  animations:^{
 								  
@@ -203,14 +206,14 @@
 									  SimonSaysButtonID buttonID = [self simonSaysButtonIDWithNumber:self.buttonSequence[i]];
 									  MDLog(@"Flash button: %@", [self simonSaysButtonStringWithID:buttonID]);
 									  
-									  [UIView addKeyframeWithRelativeStartTime:0.0
-															  relativeDuration:BUTTON_ANIMATION_RELATIVE_DURATION
+									  [UIView addKeyframeWithRelativeStartTime:BUTTON_ANIMATION_DURATION * i
+															  relativeDuration:relativeDuration
 																	animations:^{
 																		[self lightButtonWithID:buttonID];
 																	}];
 									  
-									  [UIView addKeyframeWithRelativeStartTime:BUTTON_ANIMATION_RELATIVE_DURATION
-															  relativeDuration:BUTTON_ANIMATION_RELATIVE_DURATION
+									  [UIView addKeyframeWithRelativeStartTime:BUTTON_ANIMATION_DURATION * i + relativeDuration
+															  relativeDuration:relativeDuration
 																	animations:^{
 																		[self dimButtonWithID:buttonID];
 																	}];
@@ -222,13 +225,13 @@
 
 - (void)flashAllButtonsWithCount:(int)count {
 	
-	MDLog(@"Flash all buttons %d times", count);
-	
 }
 
 
 - (void)buttonPressedWithID:(SimonSaysButtonID)buttonID {
 	
+	MDLog(@"Pressed button: %@", [self simonSaysButtonStringWithID:buttonID]);
+
 	self.buttonClickCount++;
 	SimonSaysButtonID sequenceButtonID =
 	[self simonSaysButtonIDWithNumber:self.buttonSequence[self.buttonClickCount - 1]];
@@ -237,6 +240,7 @@
 	if (buttonID != sequenceButtonID) {
 		
 		MDLog(@"Incorrect! Score: %d", self.buttonClickCount);
+		MDLog(@"");
 		[self flashAllButtonsWithCount:FLASH_COUNT_FAILURE];
 		self.buttonClickCount = 0;
 		[self.buttonSequence removeAllObjects];
@@ -250,6 +254,7 @@
 	
 	// Player has completed sequence successfully, so start a new round.
 	MDLog(@"Correct! Score: %d", self.buttonClickCount);
+	MDLog(@"");
 	[self flashAllButtonsWithCount:FLASH_COUNT_SUCCESS];
 	self.buttonClickCount = 0;
 	[self startRound];
@@ -258,28 +263,24 @@
 
 - (IBAction)greenButtonPressed {
 	
-	MDLog(@"Green Button Pressed");
 	[self buttonPressedWithID:SimonSaysButton_Green];
 }
 
 
 - (IBAction)redButtonPressed {
 	
-	MDLog(@"Red Button Pressed");
 	[self buttonPressedWithID:SimonSaysButton_Red];
 }
 
 
 - (IBAction)blueButtonPressed {
-	
-	MDLog(@"Blue Button Pressed");
+
 	[self buttonPressedWithID:SimonSaysButton_Blue];
 }
 
 
 - (IBAction)orangeButtonPressed {
-	
-	MDLog(@"Orange Button Pressed");
+
 	[self buttonPressedWithID:SimonSaysButton_Orange];
 }
 
