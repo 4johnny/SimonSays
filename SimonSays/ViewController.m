@@ -13,11 +13,30 @@
 // Constants
 //
 
-#define BUTTON_ANIMATION_DURATION 1.0
-#define BUTTON_ANIMATION_DELAY 0.0
+#define BUTTON_COUNT				4
 
-#define FLASH_COUNT_SUCCESS 1
-#define FLASH_COUNT_FAILURE 3
+#define BUTTON_ANIMATION_DURATION	0.5
+#define BUTTON_ANIMATION_DELAY		0.0
+
+#define BUTTON_LIGHT_ALPHA	1.0
+#define BUTTON_DIM_ALPHA	0.5
+
+#define FLASH_COUNT_SUCCESS	1
+#define FLASH_COUNT_FAILURE	3
+
+
+//
+// Types
+//
+
+typedef NS_ENUM(uint, SimonSaysButtonID) {
+	
+	SimonSaysButton_None =		0, // For zero-based indexing
+	SimonSaysButton_Green =		1,
+	SimonSaysButton_Red =		2,
+	SimonSaysButton_Blue =		3,
+	SimonSaysButton_Orange =	4
+};
 
 
 //
@@ -27,7 +46,9 @@
 
 @interface ViewController ()
 
-@property (nonatomic) int buttonClickCount;
+@property (nonatomic) int buttonCorrectClickCount;
+
+@property (nonatomic, readonly) NSArray* buttonNames;
 
 @end
 
@@ -49,8 +70,17 @@
 	
 	// Do any additional setup after loading the view, typically from a nib.
 	
+	// Button names same order as "SimonSaysButtonID" enum
+	_buttonNames = @[
+					 @"None",
+					 @"Green",
+					 @"Red",
+					 @"Blue",
+					 @"Orange"
+					 ];
+	
 	self.buttonSequence = [NSMutableArray array];
-	self.buttonClickCount = 0;
+	self.buttonCorrectClickCount = 0;
 }
 
 
@@ -75,31 +105,9 @@
 //
 
 
-- (NSString*)simonSaysButtonStringWithID:(SimonSaysButtonID)buttonID {
-	
-	switch (buttonID) {
-			
-		case SimonSaysButton_Green:
-			return @"Green";
-			
-		case SimonSaysButton_Red:
-			return @"Red";
-			
-		case SimonSaysButton_Blue:
-			return @"Blue";
-			
-		case SimonSaysButton_Orange:
-			return @"Orange";
-			
-		default:
-			return @"None";
-	}
-}
-
-
 - (SimonSaysButtonID)simonSaysButtonIDWithNumber:(NSNumber*)number {
 	
-	return (SimonSaysButtonID)number.charValue;
+	return (SimonSaysButtonID)number.unsignedIntValue;
 }
 
 
@@ -111,7 +119,7 @@
 
 - (SimonSaysButtonID)randomSimonSaysButtonID {
 	
-	return arc4random_uniform(SIMON_SAYS_BUTTON_COUNT) + 1;
+	return arc4random_uniform(BUTTON_COUNT) + 1; // Buttons start at 1
 }
 
 
@@ -122,13 +130,13 @@
 
 - (void)lightButton:(UIButton*)button {
 	
-	button.alpha = 1.0;
+	button.alpha = BUTTON_LIGHT_ALPHA;
 }
 
 
 - (void)dimButton:(UIButton*)button {
 	
-	button.alpha = 0.5;
+	button.alpha = BUTTON_DIM_ALPHA;
 }
 
 
@@ -189,7 +197,7 @@
 	// Add random button to button sequence
 	// TODO: Use NSValue non-retain wrapper around actual button objects.
 	SimonSaysButtonID buttonID = [self randomSimonSaysButtonID];
-	MDLog(@"Sequence button: %@", [self simonSaysButtonStringWithID:buttonID]);
+	MDLog(@"Sequence button: %@", self.buttonNames[buttonID]);
 	[self.buttonSequence addObject:[self numberWithSimonSaysButtonID:buttonID]];
 
 	// Animate sequence of buttons.
@@ -204,7 +212,7 @@
 								  for (int i = 0; i < self.buttonSequence.count; i++) {
 									  
 									  SimonSaysButtonID buttonID = [self simonSaysButtonIDWithNumber:self.buttonSequence[i]];
-									  MDLog(@"Flash button: %@", [self simonSaysButtonStringWithID:buttonID]);
+									  MDLog(@"Flash button: %@", self.buttonNames[buttonID]);
 									  
 									  [UIView addKeyframeWithRelativeStartTime:BUTTON_ANIMATION_DURATION * i
 															  relativeDuration:relativeDuration
@@ -230,19 +238,19 @@
 
 - (void)buttonPressedWithID:(SimonSaysButtonID)buttonID {
 	
-	MDLog(@"Pressed button: %@", [self simonSaysButtonStringWithID:buttonID]);
+	MDLog(@"Pressed button: %@", self.buttonNames[buttonID]);
 
-	self.buttonClickCount++;
+	self.buttonCorrectClickCount++;
 	SimonSaysButtonID sequenceButtonID =
-	[self simonSaysButtonIDWithNumber:self.buttonSequence[self.buttonClickCount - 1]];
+	[self simonSaysButtonIDWithNumber:self.buttonSequence[self.buttonCorrectClickCount - 1]];
 	
 	// If pressed button is not consistent with sequence, reset game.
 	if (buttonID != sequenceButtonID) {
 		
-		MDLog(@"Incorrect! Score: %d", self.buttonClickCount);
+		MDLog(@"Incorrect! Score: %d", self.buttonCorrectClickCount);
 		MDLog(@"");
 		[self flashAllButtonsWithCount:FLASH_COUNT_FAILURE];
-		self.buttonClickCount = 0;
+		self.buttonCorrectClickCount = 0;
 		[self.buttonSequence removeAllObjects];
 		[self startRound];
 		return;
@@ -250,13 +258,13 @@
 	
 	// Pressed button is correct.
 	// If player has not made it to end of sequence, continue playing
-	if (self.buttonClickCount != self.buttonSequence.count) return;
+	if (self.buttonCorrectClickCount != self.buttonSequence.count) return;
 	
 	// Player has completed sequence successfully, so start a new round.
-	MDLog(@"Correct! Score: %d", self.buttonClickCount);
+	MDLog(@"Correct! Score: %d", self.buttonCorrectClickCount);
 	MDLog(@"");
 	[self flashAllButtonsWithCount:FLASH_COUNT_SUCCESS];
-	self.buttonClickCount = 0;
+	self.buttonCorrectClickCount = 0;
 	[self startRound];
 }
 

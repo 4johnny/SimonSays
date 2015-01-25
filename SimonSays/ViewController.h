@@ -10,27 +10,6 @@
 
 
 //
-// Constants
-//
-
-#define SIMON_SAYS_BUTTON_COUNT 4
-
-
-//
-// Types
-//
-
-typedef NS_ENUM(uint, SimonSaysButtonID) {
-	
-	SimonSaysButton_None =		0,
-	SimonSaysButton_Green =		1,
-	SimonSaysButton_Red =		2,
-	SimonSaysButton_Blue =		3,
-	SimonSaysButton_Orange =	4
-};
-
-
-//
 // Interface
 //
 
