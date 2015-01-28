@@ -92,14 +92,6 @@ typedef NS_ENUM(uint, SimonSaysButtonID) {
 }
 
 
-- (void)didReceiveMemoryWarning {
-	[super didReceiveMemoryWarning];
-	
-	// Dispose of any resources that can be recreated.
-	
-}
-
-
 //
 // Helper Methods
 //
@@ -328,27 +320,67 @@ typedef NS_ENUM(uint, SimonSaysButtonID) {
 }
 
 
-- (IBAction)greenButtonPressed {
-	
+- (IBAction)greenButtonDown {
+	[self lightButton:self.greenButtonOutlet];
+}
+
+
+- (IBAction)greenButtonUp {
+	[self dimButton:self.greenButtonOutlet];
 	[self buttonPressedWithID:SimonSaysButton_Green];
 }
 
 
-- (IBAction)redButtonPressed {
-	
+- (IBAction)greenButtonOutside {
+	[self dimButton:self.greenButtonOutlet];
+}
+
+
+- (IBAction)redButtonDown {
+	[self lightButton:self.redButtonOutlet];
+}
+
+
+- (IBAction)redButtonUp {
+	[self dimButton:self.redButtonOutlet];
 	[self buttonPressedWithID:SimonSaysButton_Red];
 }
 
 
-- (IBAction)blueButtonPressed {
-	
+- (IBAction)redButtonOutside {
+	[self dimButton:self.redButtonOutlet];
+}
+
+
+- (IBAction)blueButtonDown {
+	[self lightButton:self.blueButtonOutlet];
+}
+
+
+- (IBAction)blueButtonUp {
+	[self dimButton:self.blueButtonOutlet];
 	[self buttonPressedWithID:SimonSaysButton_Blue];
 }
 
 
-- (IBAction)orangeButtonPressed {
-	
+- (IBAction)blueButtonOutside {
+	[self dimButton:self.blueButtonOutlet];
+}
+
+
+- (IBAction)orangeButtonDown {
+	[self lightButton:self.orangeButtonOutlet];
+}
+
+
+- (IBAction)orangeButtonUp {
+	[self dimButton:self.orangeButtonOutlet];
 	[self buttonPressedWithID:SimonSaysButton_Orange];
+}
+
+
+- (IBAction)orangeButtonOutside {
+	[self dimButton:self.orangeButtonOutlet];
 }
 
 
