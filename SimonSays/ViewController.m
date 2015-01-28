@@ -210,7 +210,7 @@ typedef NS_ENUM(uint, SimonSaysButtonID) {
 	UIViewKeyframeAnimationOptions options =
 	UIViewAnimationOptionLayoutSubviews |
 	UIViewKeyframeAnimationOptionOverrideInheritedDuration |
-	UIViewKeyframeAnimationOptionCalculationModeLinear;
+	UIViewKeyframeAnimationOptionCalculationModeDiscrete;
 	
 	[UIView animateKeyframesWithDuration:animationDuration delay:delay options:options
 							  animations:^{
