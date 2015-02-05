@@ -16,10 +16,10 @@
 #define BUTTON_COUNT				4
 
 #define BUTTON_ANIMATION_DURATION	1.0
-#define BUTTON_ANIMATION_DELAY		2.0
+#define BUTTON_ANIMATION_DELAY		1.5
 
-#define BUTTON_LIGHT_ALPHA	1.0
-#define BUTTON_DIM_ALPHA	0.5
+#define BUTTON_LIGHT_ALPHA	0.5
+#define BUTTON_DIM_ALPHA	1.0
 
 #define FLASH_COUNT_SUCCESS	1
 #define FLASH_COUNT_FAILURE	3
@@ -80,7 +80,6 @@ typedef NS_ENUM(uint, SimonSaysButtonID) {
 					 ];
 	
 	self.buttonSequence = [NSMutableArray array];
-	self.buttonCorrectClickCount = 0;
 }
 
 
@@ -123,7 +122,6 @@ typedef NS_ENUM(uint, SimonSaysButtonID) {
 - (void)lightButton:(UIButton*)button {
 	
 	button.alpha = BUTTON_LIGHT_ALPHA;
-	//	button.titleEdgeInsets.bottom;
 }
 
 
@@ -187,6 +185,8 @@ typedef NS_ENUM(uint, SimonSaysButtonID) {
 
 - (void)startRound {
 	
+	self.buttonCorrectClickCount = 0;
+	
 	// Add random button to button sequence
 	SimonSaysButtonID buttonID = [self randomSimonSaysButtonID];
 	MDLog(@"Sequence button: %@", self.buttonNames[buttonID]);
@@ -214,7 +214,7 @@ typedef NS_ENUM(uint, SimonSaysButtonID) {
 									  double relativeStartTime = relativeDuration * i;
 									  
 									  MDLog(@"Key frames: button %@, time: %.2f, duration: %.2f", self.buttonNames[buttonID], relativeStartTime, relativeDuration);
-
+									  
 									  // Light Button
 									  [UIView addKeyframeWithRelativeStartTime:relativeStartTime
 															  relativeDuration:relativeDuration / 2.0
@@ -242,7 +242,7 @@ typedef NS_ENUM(uint, SimonSaysButtonID) {
 	NSTimeInterval delay = 0.0;
 	double relativeDuration = 1.0 / (double)count;
 	MDLog(@"Flash Count: %d, animation duration: %.2f, delay: %.2f, relative duration: %.2f", count, animationDuration, delay, relativeDuration);
-
+	
 	UIViewKeyframeAnimationOptions options =
 	UIViewAnimationOptionLayoutSubviews |
 	UIViewKeyframeAnimationOptionOverrideInheritedDuration |
@@ -278,8 +278,15 @@ typedef NS_ENUM(uint, SimonSaysButtonID) {
 																		[self dimButtonWithID:SimonSaysButton_Orange];
 																	}];
 								  }
+								  
 							  } // animations
-							  completion:nil
+	 
+							  completion:^(BOOL finished) {
+								  
+								  // Start next round
+								  // NOTE: Explicitly controls animations to be in correct sequence
+								  [self performSelectorOnMainThread:@selector(startRound) withObject:nil waitUntilDone:NO];
+							  } // completion
 	 ]; // animateKeyframes
 }
 
@@ -288,35 +295,38 @@ typedef NS_ENUM(uint, SimonSaysButtonID) {
 	
 	MDLog(@"Pressed button: %@", self.buttonNames[buttonID]);
 	
-	self.buttonCorrectClickCount++;
 	SimonSaysButtonID sequenceButtonID =
-	[self simonSaysButtonIDWithNumber:self.buttonSequence[self.buttonCorrectClickCount - 1]];
+	[self simonSaysButtonIDWithNumber:self.buttonSequence[self.buttonCorrectClickCount]];
 	
 	// If pressed button is not consistent with sequence, reset game.
 	if (buttonID != sequenceButtonID) {
 		
 		MDLog(@"Incorrect! Score: %d", self.buttonCorrectClickCount);
-		[self flashAllButtonsWithCount:FLASH_COUNT_FAILURE];
 		MDLog(@"");
 		
-		self.buttonCorrectClickCount = 0;
+		// Reset game
 		[self.buttonSequence removeAllObjects];
-		[self startRound];
+		
+		// Flash buttons and start next round
+		// NOTE: Explicitly controls animations to be in correct sequence
+		[self flashAllButtonsWithCount:FLASH_COUNT_FAILURE];
 		
 		return;
 	}
 	
 	// Pressed button is correct.
-	// If player has not made it to end of sequence, continue playing
+	
+	// If player has not made it to end of sequence, continue playing.
+	self.buttonCorrectClickCount++;
 	if (self.buttonCorrectClickCount != self.buttonSequence.count) return;
 	
 	// Player has completed sequence successfully, so start a new round.
 	MDLog(@"Correct! Score: %d", self.buttonCorrectClickCount);
-	[self flashAllButtonsWithCount:FLASH_COUNT_SUCCESS];
 	MDLog(@"");
 	
-	self.buttonCorrectClickCount = 0;
-	[self startRound];
+	// Flash buttons and start next round
+	// NOTE: Explicitly controls animations to be in correct sequence
+	[self flashAllButtonsWithCount:FLASH_COUNT_SUCCESS];
 }
 
 

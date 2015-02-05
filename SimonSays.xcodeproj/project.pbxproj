@@ -82,13 +82,9 @@
 		B2004D161A7319B700ABD55D /* SimonSays */ = {
 			isa = PBXGroup;
 			children = (
-				B2004D1B1A7319B700ABD55D /* AppDelegate.h */,
-				B2004D1C1A7319B700ABD55D /* AppDelegate.m */,
 				B2004D1E1A7319B700ABD55D /* ViewController.h */,
 				B2004D1F1A7319B700ABD55D /* ViewController.m */,
 				B2004D211A7319B700ABD55D /* Main.storyboard */,
-				B2004D241A7319B700ABD55D /* Images.xcassets */,
-				B2004D261A7319B700ABD55D /* LaunchScreen.xib */,
 				B2004D171A7319B700ABD55D /* Supporting Files */,
 			);
 			path = SimonSays;
@@ -97,6 +93,10 @@
 		B2004D171A7319B700ABD55D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B2004D1B1A7319B700ABD55D /* AppDelegate.h */,
+				B2004D1C1A7319B700ABD55D /* AppDelegate.m */,
+				B2004D261A7319B700ABD55D /* LaunchScreen.xib */,
+				B2004D241A7319B700ABD55D /* Images.xcassets */,
 				B2004D3D1A733CED00ABD55D /* SimonSays-PrefixHeader.pch */,
 				B2004D181A7319B700ABD55D /* Info.plist */,
 				B2004D191A7319B700ABD55D /* main.m */,
